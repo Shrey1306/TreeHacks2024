@@ -2,18 +2,21 @@
 
 
 import { Fragment, useCallback, useContext, useRef } from "react"
-import { EventLoopContext, StateContexts } from "/utils/context"
+import { EventLoopContext, StateContexts, UploadFilesContext } from "/utils/context"
 import { Event, getBackendURL, getRefValue, getRefValues, isTrue, refs, set_val } from "/utils/state"
-import { Dialog as RadixThemesDialog, Text as RadixThemesText, Theme as RadixThemesTheme } from "@radix-ui/themes"
+import { Button as RadixThemesButton, Dialog as RadixThemesDialog, Flex as RadixThemesFlex, Grid as RadixThemesGrid, Heading as RadixThemesHeading, ScrollArea as RadixThemesScrollArea, Text as RadixThemesText, Theme as RadixThemesTheme } from "@radix-ui/themes"
 import env from "/env.json"
-import { Avatar, Box, Breadcrumb, BreadcrumbItem, Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, FormControl, Heading, HStack, Image as ChakraImage, Input, Link, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, VStack } from "@chakra-ui/react"
+import { Avatar, Box, Breadcrumb, BreadcrumbItem, Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Flex, FormControl, Heading, HStack, Image as ChakraImage, Input, Link, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, VStack } from "@chakra-ui/react"
 import { CloseIcon, DeleteIcon, HamburgerIcon } from "@chakra-ui/icons"
 import NextLink from "next/link"
+import ReactDropzone from "react-dropzone"
 import "@radix-ui/themes/styles.css"
 import theme from "/utils/theme.js"
+import dynamic from "next/dynamic"
 import { SpinningCircles } from "react-loading-icons"
 import NextHead from "next/head"
 
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 
 export function Fragment_1762bb90abdb81b879b2a22edbbe01a1 () {
@@ -45,16 +48,16 @@ export function Fragment_1762bb90abdb81b879b2a22edbbe01a1 () {
   )
 }
 
-export function Formcontrol_5084c18952b7c39b5bec8f02edf6d862 () {
-  const ref_question = useRef(null); refs['ref_question'] = ref_question;
+export function Formcontrol_490523eab33c12a1a8cbfcdef4223e2a () {
   const state__state = useContext(StateContexts.state__state)
+  const ref_question = useRef(null); refs['ref_question'] = ref_question;
 
 
   return (
     <FormControl isDisabled={state__state.processing}>
   <HStack sx={{"alignItems": "center", "justifyContent": "space-between"}}>
   <Input id={`question`} placeholder={`Type something...`} ref={ref_question} sx={{"background": "#776885", "borderColor": "#fff3", "borderWidth": "1px", "p": "4", "_placeholder": {"color": "#fffa"}, "_hover": {"borderColor": "#fffa"}}}/>
-  <Button sx={{"background": "#5F1A37", "borderColor": "#fff3", "borderWidth": "1px", "p": "4", "_hover": {"background": "#5F1A37"}, "shadow": "rgba(95, 26, 55, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(119, 104, 133, 0.35) 0px -2px 6px 0px inset;", "color": "#fff"}} type={`submit`}>
+  <Button sx={{"background": "#9B6A6C", "borderColor": "#fff3", "borderWidth": "1px", "p": "4", "_hover": {"background": "#5F1A37"}, "shadow": "rgba(95, 26, 55, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(119, 104, 133, 0.35) 0px -2px 6px 0px inset;", "color": "#fff"}} type={`submit`}>
   <Fragment_182d151165b9fcd42b0e3549d1665960/>
 </Button>
 </HStack>
@@ -62,7 +65,7 @@ export function Formcontrol_5084c18952b7c39b5bec8f02edf6d862 () {
   )
 }
 
-export function Box_de8d1da301b8ff2988f7743af670d215 () {
+export function Box_867224972f0e7bd59b027b0acb11e5bc () {
   const state__state = useContext(StateContexts.state__state)
 
 
@@ -86,27 +89,31 @@ export function Box_de8d1da301b8ff2988f7743af670d215 () {
   )
 }
 
-export function Box_e4e8fe82470d524664065b9cae8cd032 () {
-  
-    const handleSubmit_638d30da4213976749e40d45908448f9 = useCallback((ev) => {
-        const $form = ev.target
-        ev.preventDefault()
-        const form_data = {...Object.fromEntries(new FormData($form).entries()), ...{"question": getRefValue(refs['ref_question'])}}
-
-        addEvents([Event("state.state.process_question", {form_data:form_data})])
-
-        if (true) {
-            $form.reset()
-        }
-    })
-    
-  const [addEvents, connectError] = useContext(EventLoopContext);
+export function Modal_8dba915532cd796ba8e6c75798de5850 () {
+  const state__state = useContext(StateContexts.state__state)
 
 
   return (
-    <Box as={`form`} onSubmit={handleSubmit_638d30da4213976749e40d45908448f9} sx={{"width": "100%"}}>
-  <Formcontrol_5084c18952b7c39b5bec8f02edf6d862/>
-</Box>
+    <Modal isOpen={state__state.modal_open}>
+  <ModalOverlay>
+  <ModalContent sx={{"background": "#1D1C27", "color": "#fff"}}>
+  <ModalHeader>
+  <HStack alignItems={`center`} justifyContent={`space-between`} sx={{"alignItems": "center", "justifyContent": "space-between"}}>
+  <Text>
+  {`Create new chat`}
+</Text>
+  <Closeicon_c90c6601ae2cde3940fecab2e59b2ad0/>
+</HStack>
+</ModalHeader>
+  <ModalBody>
+  <Input_2423e72713f533e48a2897d02518bd8c/>
+</ModalBody>
+  <ModalFooter>
+  <Button_b9f1f12371b90bfbcd3a85ec7b6f8df8/>
+</ModalFooter>
+</ModalContent>
+</ModalOverlay>
+</Modal>
   )
 }
 
@@ -120,36 +127,15 @@ export function Closeicon_11ed883525187cdaad471aef955f22dd () {
   )
 }
 
-export function Button_55095af02be38f3f2b64d3e413eaca13 () {
+export function Button_07867e36cb5ac65f4140c3b201c99e68 () {
   const [addEvents, connectError] = useContext(EventLoopContext);
 
-  const on_click_e9416bfe015c0fd3bcfc5ccef2e35037 = useCallback((_e) => addEvents([Event("state.state.toggle_modal", {})], (_e), {}), [addEvents, Event])
+  const on_click_44ea287a5fe43aff33d47baeab2ad68c = useCallback((_e) => addEvents([Event("_call_script", {javascript_code:`refs['__clear_selected_files']('default')`})], (_e), {}), [addEvents, Event])
 
   return (
-    <Button onClick={on_click_e9416bfe015c0fd3bcfc5ccef2e35037} sx={{"background": "#5F1A37", "px": "4", "py": "2", "h": "auto", "shadow": "rgba(95, 26, 55, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(119, 104, 133, 0.35) 0px -2px 6px 0px inset;", "color": "#fff", "_hover": {"background": "#5F1A37"}}}>
-  {`+ New Edit`}
-</Button>
-  )
-}
-
-export function Vstack_71405e98f3b4dcaf6aead830fe7f970a () {
-  const [addEvents, connectError] = useContext(EventLoopContext);
-  const state__state = useContext(StateContexts.state__state)
-
-
-  return (
-    <VStack alignItems={`stretch`} sx={{"alignItems": "stretch", "justifyContent": "space-between"}}>
-  {state__state.chat_titles.map((chat, index_a879abb76c072a4e28905c11f7afad97) => (
-  <HStack key={index_a879abb76c072a4e28905c11f7afad97} sx={{"color": "#fff", "cursor": "pointer"}}>
-  <Box onClick={(_e) => addEvents([Event("state.state.set_chat", {chat_name:chat})], (_e), {})} sx={{"border": "double 1px transparent;", "borderRadius": "10px;", "backgroundImage": "linear-gradient(#04030F, #04030F), radial-gradient(circle at top left, #776885,#5F1A37);", "backgroundOrigin": "border-box;", "backgroundClip": "padding-box, border-box;", "p": "2", "_hover": {"backgroundImage": "linear-gradient(#04030F, #04030F), radial-gradient(circle at top left, #776885,#776885);"}, "color": "#fff8", "flex": "1"}}>
-  {chat}
-</Box>
-  <Box sx={{"border": "double 1px transparent;", "borderRadius": "10px;", "backgroundImage": "linear-gradient(#04030F, #04030F), radial-gradient(circle at top left, #776885,#5F1A37);", "backgroundOrigin": "border-box;", "backgroundClip": "padding-box, border-box;", "p": "2", "_hover": {"backgroundImage": "linear-gradient(#04030F, #04030F), radial-gradient(circle at top left, #776885,#776885);"}}}>
-  <DeleteIcon onClick={(_e) => addEvents([Event("state.state.delete_chat", {})], (_e), {})} sx={{"fontSize": "md", "color": "#fff8", "_hover": {"color": "#fff"}, "cursor": "pointer", "w": "8"}}/>
-</Box>
-</HStack>
-))}
-</VStack>
+    <RadixThemesButton css={{"background": "#776885"}} onClick={on_click_44ea287a5fe43aff33d47baeab2ad68c}>
+  {`Clear`}
+</RadixThemesButton>
   )
 }
 
@@ -164,35 +150,69 @@ export function Text_329229aa15fcc43d0078f987bf0257b6 () {
   )
 }
 
-export function Modal_58b30a5e509119f576a88a3474d0c6cc () {
+export function Button_54d25c3148e869f0a531c14025a7b89a () {
+  const [addEvents, connectError] = useContext(EventLoopContext);
+  const [filesById, setFilesById] = useContext(UploadFilesContext);
+
+  const on_click_4e2d8f20ed65f854cae117923adec0c7 = useCallback((_e) => addEvents([Event("state.state.handle_upload", {files:filesById.default,upload_id:`default`}, "uploadFiles")], (_e), {}), [addEvents, Event, filesById, setFilesById])
+
+  return (
+    <RadixThemesButton css={{"background": "#776885"}} onClick={on_click_4e2d8f20ed65f854cae117923adec0c7}>
+  {`Upload`}
+</RadixThemesButton>
+  )
+}
+
+export function Grid_9779f01f23e763e9d9b040923dd07200 () {
   const state__state = useContext(StateContexts.state__state)
 
 
   return (
-    <Modal isOpen={state__state.modal_open}>
-  <ModalOverlay>
-  <ModalContent sx={{"background": "#04030F", "color": "#fff"}}>
-  <ModalHeader>
-  <HStack alignItems={`center`} justifyContent={`space-between`} sx={{"alignItems": "center", "justifyContent": "space-between"}}>
-  <Text>
-  {`Create new chat`}
-</Text>
-  <Closeicon_c90c6601ae2cde3940fecab2e59b2ad0/>
-</HStack>
-</ModalHeader>
-  <ModalBody>
-  <Input_2423e72713f533e48a2897d02518bd8c/>
-</ModalBody>
-  <ModalFooter>
-  <Button_f61fe1fd752ac359cee63af6064ca229/>
-</ModalFooter>
-</ModalContent>
-</ModalOverlay>
-</Modal>
+    <RadixThemesGrid columns={`1`} css={{"width": "100%"}}>
+  {state__state.video_segments.map((url_v, index_e94818a59a509b0a791004c1e0a68dfd) => (
+  <ReactPlayer controls={true} height={`auto`} key={index_e94818a59a509b0a791004c1e0a68dfd} loop={true} muted={true} playing={true} url={(("/") + (url_v))} width={`100%`}/>
+))}
+</RadixThemesGrid>
   )
 }
 
-export function Drawer_1f9568ad74a74f7ce8eb9650fe6f8752 () {
+export function Reactdropzone_d41c5674f1b36aa59e547b85cbc90f80 () {
+  const [addEvents, connectError] = useContext(EventLoopContext);
+  const [filesById, setFilesById] = useContext(UploadFilesContext);
+  const ref_default = useRef(null); refs['ref_default'] = ref_default;
+
+  const on_drop_65dafcf47af23567d698a117f4553801 = useCallback(e => setFilesById(filesById => ({...filesById, default: e})), [addEvents, Event, filesById, setFilesById])
+
+  return (
+    <ReactDropzone id={`default`} multiple={true} onDrop={on_drop_65dafcf47af23567d698a117f4553801} ref={ref_default}>
+  {({ getRootProps, getInputProps }) => (
+    <Box sx={{"border": "1px dotted #776885", "padding": "50px", "borderRadius": "lg"}} {...getRootProps()}>
+    <Input type={`file`} {...getInputProps()}/>
+    <VStack sx={{"alignItems": "stretch", "justifyContent": "space-between"}}>
+    <RadixThemesButton css={{"background": "#9B6A6C", "borderColor": "#fff3", "borderWidth": "1px", "p": "4", "&:hover": {"background": "#5F1A37"}}}>
+    {`Select File`}
+  </RadixThemesButton>
+    <RadixThemesText as={`p`}>
+    {`Drag and drop Stream here or Click to Select 📀`}
+  </RadixThemesText>
+  </VStack>
+  </Box>
+  )}
+</ReactDropzone>
+  )
+}
+
+export function Hamburgericon_c98271a08d187d17b68bd3253ad088ed () {
+  const [addEvents, connectError] = useContext(EventLoopContext);
+
+  const on_click_2905983f8758758258aab6a80fcc9a4c = useCallback((_e) => addEvents([Event("state.state.toggle_drawer", {})], (_e), {}), [addEvents, Event])
+
+  return (
+    <HamburgerIcon onClick={on_click_2905983f8758758258aab6a80fcc9a4c} sx={{"mr": 4, "cursor": "pointer"}}/>
+  )
+}
+
+export function Drawer_039237bc6ce9e5cdf7c4afa73b88fc27 () {
   const state__state = useContext(StateContexts.state__state)
 
 
@@ -209,11 +229,45 @@ export function Drawer_1f9568ad74a74f7ce8eb9650fe6f8752 () {
 </HStack>
 </DrawerHeader>
   <DrawerBody>
-  <Vstack_71405e98f3b4dcaf6aead830fe7f970a/>
+  <Vstack_d01d7d493928f2bd0b3ce15b973b8fbf/>
 </DrawerBody>
 </DrawerContent>
 </DrawerOverlay>
 </Drawer>
+  )
+}
+
+export function Button_b9f1f12371b90bfbcd3a85ec7b6f8df8 () {
+  const [addEvents, connectError] = useContext(EventLoopContext);
+
+  const on_click_65775bd3c3ca6de4793090251b518aa6 = useCallback((_e) => addEvents([Event("state.state.create_chat", {})], (_e), {}), [addEvents, Event])
+
+  return (
+    <Button onClick={on_click_65775bd3c3ca6de4793090251b518aa6} sx={{"background": "#9B6A6C", "boxShadow": "md", "px": "4", "py": "2", "h": "auto", "_hover": {"background": "#9B6A6C"}, "shadow": "rgba(95, 26, 55, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(119, 104, 133, 0.35) 0px -2px 6px 0px inset;", "color": "#fff"}}>
+  {`Create`}
+</Button>
+  )
+}
+
+export function Closeicon_c90c6601ae2cde3940fecab2e59b2ad0 () {
+  const [addEvents, connectError] = useContext(EventLoopContext);
+
+  const on_click_e9416bfe015c0fd3bcfc5ccef2e35037 = useCallback((_e) => addEvents([Event("state.state.toggle_modal", {})], (_e), {}), [addEvents, Event])
+
+  return (
+    <CloseIcon onClick={on_click_e9416bfe015c0fd3bcfc5ccef2e35037} sx={{"fontSize": "sm", "color": "#fff8", "_hover": {"color": "#fff"}, "cursor": "pointer"}}/>
+  )
+}
+
+export function Button_83d3f65c347ffc5f139a0b31dc783abf () {
+  const [addEvents, connectError] = useContext(EventLoopContext);
+
+  const on_click_e9416bfe015c0fd3bcfc5ccef2e35037 = useCallback((_e) => addEvents([Event("state.state.toggle_modal", {})], (_e), {}), [addEvents, Event])
+
+  return (
+    <Button onClick={on_click_e9416bfe015c0fd3bcfc5ccef2e35037} sx={{"background": "#9B6A6C", "px": "4", "py": "2", "h": "auto", "shadow": "rgba(95, 26, 55, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(119, 104, 133, 0.35) 0px -2px 6px 0px inset;", "color": "#fff", "_hover": {"background": "#9B6A6C"}}}>
+  {`+ New Edit`}
+</Button>
   )
 }
 
@@ -238,18 +292,6 @@ export function Fragment_182d151165b9fcd42b0e3549d1665960 () {
   )
 }
 
-export function Button_f61fe1fd752ac359cee63af6064ca229 () {
-  const [addEvents, connectError] = useContext(EventLoopContext);
-
-  const on_click_65775bd3c3ca6de4793090251b518aa6 = useCallback((_e) => addEvents([Event("state.state.create_chat", {})], (_e), {}), [addEvents, Event])
-
-  return (
-    <Button onClick={on_click_65775bd3c3ca6de4793090251b518aa6} sx={{"background": "#5F1A37", "boxShadow": "md", "px": "4", "py": "2", "h": "auto", "_hover": {"background": "#776885"}, "shadow": "rgba(95, 26, 55, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(119, 104, 133, 0.35) 0px -2px 6px 0px inset;", "color": "#fff"}}>
-  {`Create`}
-</Button>
-  )
-}
-
 export function Input_2423e72713f533e48a2897d02518bd8c () {
   const [addEvents, connectError] = useContext(EventLoopContext);
 
@@ -260,23 +302,63 @@ export function Input_2423e72713f533e48a2897d02518bd8c () {
   )
 }
 
-export function Hamburgericon_c98271a08d187d17b68bd3253ad088ed () {
+export function Box_838e6f963022e6af9e13540a917903f2 () {
+  
+    const handleSubmit_59f97288a0f1387c88185512f6033e69 = useCallback((ev) => {
+        const $form = ev.target
+        ev.preventDefault()
+        const form_data = {...Object.fromEntries(new FormData($form).entries()), ...{"question": getRefValue(refs['ref_question'])}}
+
+        addEvents([Event("state.state.process_question", {form_data:form_data})])
+
+        if (true) {
+            $form.reset()
+        }
+    })
+    
   const [addEvents, connectError] = useContext(EventLoopContext);
 
-  const on_click_2905983f8758758258aab6a80fcc9a4c = useCallback((_e) => addEvents([Event("state.state.toggle_drawer", {})], (_e), {}), [addEvents, Event])
 
   return (
-    <HamburgerIcon onClick={on_click_2905983f8758758258aab6a80fcc9a4c} sx={{"mr": 4, "cursor": "pointer"}}/>
+    <Box as={`form`} onSubmit={handleSubmit_59f97288a0f1387c88185512f6033e69} sx={{"width": "100%"}}>
+  <Formcontrol_490523eab33c12a1a8cbfcdef4223e2a/>
+</Box>
   )
 }
 
-export function Closeicon_c90c6601ae2cde3940fecab2e59b2ad0 () {
+export function Vstack_d01d7d493928f2bd0b3ce15b973b8fbf () {
   const [addEvents, connectError] = useContext(EventLoopContext);
+  const state__state = useContext(StateContexts.state__state)
 
-  const on_click_e9416bfe015c0fd3bcfc5ccef2e35037 = useCallback((_e) => addEvents([Event("state.state.toggle_modal", {})], (_e), {}), [addEvents, Event])
 
   return (
-    <CloseIcon onClick={on_click_e9416bfe015c0fd3bcfc5ccef2e35037} sx={{"fontSize": "sm", "color": "#fff8", "_hover": {"color": "#fff"}, "cursor": "pointer"}}/>
+    <VStack alignItems={`stretch`} sx={{"alignItems": "stretch", "justifyContent": "space-between"}}>
+  {state__state.chat_titles.map((chat, index_ea448be7b96cb37543774087a1363ee7) => (
+  <HStack key={index_ea448be7b96cb37543774087a1363ee7} sx={{"color": "#fff", "cursor": "pointer"}}>
+  <Box onClick={(_e) => addEvents([Event("state.state.set_chat", {chat_name:chat})], (_e), {})} sx={{"border": "double 1px transparent;", "borderRadius": "10px;", "backgroundImage": "linear-gradient(#04030F, #04030F), radial-gradient(circle at top left, #776885,#9B6A6C);", "backgroundOrigin": "border-box;", "backgroundClip": "padding-box, border-box;", "p": "2", "_hover": {"backgroundImage": "linear-gradient(#04030F, #04030F), radial-gradient(circle at top left, #776885,#776885);"}, "color": "#fff8", "flex": "1"}}>
+  {chat}
+</Box>
+  <Box sx={{"border": "double 1px transparent;", "borderRadius": "10px;", "backgroundImage": "linear-gradient(#04030F, #04030F), radial-gradient(circle at top left, #776885,#9B6A6C);", "backgroundOrigin": "border-box;", "backgroundClip": "padding-box, border-box;", "p": "2", "_hover": {"backgroundImage": "linear-gradient(#04030F, #04030F), radial-gradient(circle at top left, #776885,#776885);"}}}>
+  <DeleteIcon onClick={(_e) => addEvents([Event("state.state.delete_chat", {})], (_e), {})} sx={{"fontSize": "md", "color": "#fff8", "_hover": {"color": "#fff"}, "cursor": "pointer", "w": "8"}}/>
+</Box>
+</HStack>
+))}
+</VStack>
+  )
+}
+
+export function Flex_90098c846fefa7a78ae981fcb13da1e4 () {
+  const [filesById, setFilesById] = useContext(UploadFilesContext);
+
+
+  return (
+    <RadixThemesFlex align={`start`} css={{"flexDirection": "row"}} gap={`2`}>
+  {(filesById.default ? filesById.default.map((f) => (f.path || f.name)) : []).map((children, props) => (
+  <RadixThemesText as={`p`} key={props}>
+  {children}
+</RadixThemesText>
+))}
+</RadixThemesFlex>
   )
 }
 
@@ -286,7 +368,7 @@ export default function Component() {
     <Fragment>
   <Fragment_1762bb90abdb81b879b2a22edbbe01a1/>
   <VStack alignItems={`stretch`} spacing={`0`} sx={{"background": "#04030F", "color": "#fff", "minH": "100vh", "alignItems": "stretch", "justifyContent": "space-between"}}>
-  <Box sx={{"background": "#04030F", "backdropFilter": "auto", "backdropBlur": "lg", "p": "4", "borderBottom": "1px solid #fff3", "position": "sticky", "top": "0", "zIndex": "100"}}>
+  <Box sx={{"backdropFilter": "auto", "backdropBlur": "lg", "p": "4", "position": "sticky", "top": "0", "zIndex": "100", "background": "rgba(255,255,255, 0.1)"}}>
   <HStack justify={`space-between`} sx={{"alignItems": "center", "justifyContent": "space-between"}}>
   <HStack sx={{"alignItems": "center", "justifyContent": "space-between"}}>
   <Hamburgericon_c98271a08d187d17b68bd3253ad088ed/>
@@ -307,17 +389,17 @@ export default function Component() {
 </Breadcrumb>
 </HStack>
   <HStack spacing={`8`} sx={{"alignItems": "center", "justifyContent": "space-between"}}>
-  <Button_55095af02be38f3f2b64d3e413eaca13/>
+  <Button_83d3f65c347ffc5f139a0b31dc783abf/>
   <Menu sx={{"background": "#04030F", "border": "red"}}>
   <MenuButton>
   <Avatar name={`User`} size={`md`} sx={{"shadow": "rgba(95, 26, 55, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(119, 104, 133, 0.35) 0px -2px 6px 0px inset;", "color": "#fff", "background": "#776885"}}/>
   <Box/>
 </MenuButton>
-  <MenuList sx={{"background": "#04030F", "border": "1.5px solid #5F1A37"}}>
+  <MenuList sx={{"background": "#04030F", "border": "1.5px solid #9B6A6C"}}>
   <MenuItem sx={{"background": "#04030F", "color": "#fff"}}>
   {`Help`}
 </MenuItem>
-  <MenuDivider sx={{"border": "1px solid #5F1A37"}}/>
+  <MenuDivider sx={{"border": "1px solid #9B6A6C"}}/>
   <MenuItem sx={{"background": "#04030F", "color": "#fff"}}>
   {`Settings`}
 </MenuItem>
@@ -326,16 +408,44 @@ export default function Component() {
 </HStack>
 </HStack>
 </Box>
-  <VStack sx={{"py": "8", "flex": "1", "width": "100%", "maxW": "3xl", "paddingInlineStart": "4", "paddingInlineEnd": "4", "alignSelf": "center", "overflow": "hidden", "paddingBottom": "5em", "alignItems": "stretch", "justifyContent": "space-between"}}>
-  <Box_de8d1da301b8ff2988f7743af670d215/>
-</VStack>
-  <Box sx={{"position": "sticky", "bottom": "0", "left": "0", "py": "4", "backdropFilter": "auto", "backdropBlur": "lg", "alignItems": "stretch", "width": "100%", "background": "rgba(255,255,255, 0.1)"}}>
-  <VStack sx={{"width": "100%", "maxW": "3xl", "mx": "auto", "alignItems": "stretch", "justifyContent": "space-between"}}>
-  <Box_e4e8fe82470d524664065b9cae8cd032/>
+  <HStack spacing={`0`} sx={{"align": "stretch", "alignItems": "center", "justifyContent": "space-between"}}>
+  <RadixThemesScrollArea css={{"height": "calc(100vh - 20vh)", "width": "80%", "borderRightWidth": "1px", "borderColor": "white"}} scrollbars={`vertical`} type={`always`}>
+  <Flex direction={`column`} sx={{"spacing": "4"}}>
+  <Box sx={{"flexGrow": "1", "paddingRight": "20px"}}>
+  <HStack spacing={`4`} sx={{"alignItems": "center", "justifyContent": "space-between"}}>
+  <Box sx={{"width": "40%", "margin": "0px", "padding": "10px", "flexGrow": "1", "textAlign": "center"}}>
+  <VStack spacing={`4`} sx={{"alignItems": "stretch", "justifyContent": "space-between"}}>
+  <Reactdropzone_d41c5674f1b36aa59e547b85cbc90f80/>
+  <Flex_90098c846fefa7a78ae981fcb13da1e4/>
+  <Button_54d25c3148e869f0a531c14025a7b89a/>
+  <Button_07867e36cb5ac65f4140c3b201c99e68/>
 </VStack>
 </Box>
-  <Drawer_1f9568ad74a74f7ce8eb9650fe6f8752/>
-  <Modal_58b30a5e509119f576a88a3474d0c6cc/>
+  <Box sx={{"width": "60%", "borderRadius": "lg", "padding": "10px", "flexGrow": "1", "textAlign": "center", "background": "rgba(255,255,255, 0.1)"}}>
+  <Grid_9779f01f23e763e9d9b040923dd07200/>
+</Box>
+</HStack>
+</Box>
+</Flex>
+</RadixThemesScrollArea>
+  <RadixThemesScrollArea css={{"height": "calc(100vh - 20vh)", "width": "20%"}} scrollbars={`vertical`} type={`always`}>
+  <Flex direction={`column`} sx={{"spacing": "4"}}>
+  <VStack sx={{"py": "8", "flex": "1", "width": "100%", "maxW": "3xl", "paddingInlineStart": "4", "paddingInlineEnd": "4", "alignSelf": "center", "overflow": "hidden", "paddingBottom": "5em", "alignItems": "stretch", "justifyContent": "space-between"}}>
+  <RadixThemesHeading align={`center`} weight={`medium`}>
+  {`LLM powered Editor`}
+</RadixThemesHeading>
+  <Box_867224972f0e7bd59b027b0acb11e5bc/>
+</VStack>
+</Flex>
+</RadixThemesScrollArea>
+</HStack>
+  <Box sx={{"position": "sticky", "bottom": "0", "left": "0", "py": "4", "backdropFilter": "auto", "backdropBlur": "lg", "alignItems": "stretch", "width": "100%", "background": "rgba(255,255,255, 0.1)"}}>
+  <VStack sx={{"width": "100%", "maxW": "3xl", "mx": "auto", "alignItems": "stretch", "justifyContent": "space-between"}}>
+  <Box_838e6f963022e6af9e13540a917903f2/>
+</VStack>
+</Box>
+  <Drawer_039237bc6ce9e5cdf7c4afa73b88fc27/>
+  <Modal_8dba915532cd796ba8e6c75798de5850/>
 </VStack>
   <NextHead>
   <title>

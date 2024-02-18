@@ -42,6 +42,7 @@ def message(qa: QA) -> rx.Component:
 def chat() -> rx.Component:
     """List all the messages in a single conversation."""
     return rx.chakra.vstack(
+        rx.heading("LLM powered Editor", align="center", weight="medium"),
         rx.chakra.box(rx.foreach(State.chats[State.current_chat], message)),
         py="8",
         flex="1",

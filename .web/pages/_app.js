@@ -8,6 +8,7 @@ import ChakraColorModeProvider from "/components/reflex/chakra_color_mode_provid
 import RadixThemesColorModeProvider from "/components/reflex/radix_themes_color_mode_provider.js"
 import { Theme as RadixThemesTheme } from "@radix-ui/themes"
 import "@radix-ui/themes/styles.css"
+import { UploadFilesProvider } from "/utils/context"
 import { Fragment } from "react"
 
 
@@ -24,9 +25,11 @@ function AppWrap({children}) {
   <ChakraColorModeProvider>
   <RadixThemesColorModeProvider>
   <RadixThemesTheme accentColor={`blue`} css={{...theme.styles.global[':root'], ...theme.styles.global.body}}>
+  <UploadFilesProvider>
   <Fragment>
   {children}
 </Fragment>
+</UploadFilesProvider>
 </RadixThemesTheme>
 </RadixThemesColorModeProvider>
 </ChakraColorModeProvider>

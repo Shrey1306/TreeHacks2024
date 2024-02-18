@@ -4,7 +4,7 @@ import json
 import openai
 import reflex as rx
 
-openai.api_key = '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'
+openai.api_key = ''
 openai.api_base = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")
 
 BAIDU_API_KEY = os.getenv("BAIDU_API_KEY")
@@ -36,7 +36,7 @@ class QA(rx.Base):
 
 
 DEFAULT_CHATS = {
-    "Edit 1": [],
+    "Edit 1": [QA(question='Upload an Image and Type to Edit. 🔥', answer='Go on!')],
 }
 
 
@@ -65,6 +65,28 @@ class State(rx.State):
     modal_open: bool = False
 
     api_type: str = "baidu" if BAIDU_API_KEY else "openai"
+
+
+    video_segments: list[str] = []
+
+    async def handle_upload(self, files: list[rx.UploadFile]):
+        """Handle the upload of file(s) and process video.
+
+        Args:
+            files: The uploaded files.
+        """
+        for file in files:
+            upload_data = await file.read()
+            # Define the outfile path directly in the current directory with the uploaded file's name
+            assets_dir = os.path.join(os.getcwd(), "assets")
+            outfile = os.path.join(assets_dir, file.filename)  # os.getcwd() gets the current working directory
+
+            # Save the file to the outfile path
+            with open(outfile, "wb") as file_object:
+                file_object.write(upload_data)
+
+            # Update the state with the path to the saved file
+            self.video_segments.append(file.filename)  # Appending the path of the saved file to video_paths
 
     def create_chat(self):
         """Create a new chat."""

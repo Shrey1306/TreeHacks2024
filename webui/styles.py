@@ -2,14 +2,14 @@ import reflex as rx
 
 # Updated color definitions based on the new palette
 bg_dark_color = "#04030F"  # Previously #111
-bg_medium_color = "#5F1A37"  # Previously #222
+bg_medium_color = "#9B6A6C"  # Previously #222
 
 border_color = "#fff3"
 
 # Adjusting the accent colors according to the new palette
 accent_light = "#776885"  # New color
 accent_color = "#776885"  # Using the primary new color for consistency
-accent_dark = "#5F1A37"  # A slightly darker shade for depth, using the medium background color
+accent_dark = "#9B6A6C"  # A slightly darker shade for depth, using the medium background color
 
 icon_color = "#fff8"
 

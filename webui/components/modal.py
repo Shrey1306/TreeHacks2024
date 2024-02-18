@@ -33,16 +33,16 @@ def modal() -> rx.Component:
                 rx.chakra.modal_footer(
                     rx.chakra.button(
                         "Create",
-                        bg="#5F1A37",  # Button background in deep maroon
+                        bg="#9B6A6C",  # Button background in deep maroon
                         box_shadow="md",
                         px="4",
                         py="2",
                         h="auto",
-                        _hover={"bg": "#776885"},  # Hover in lighter plum
+                        _hover={"bg": "#9B6A6C"},  # Hover in lighter plum
                         on_click=State.create_chat,
                     ),
                 ),
-                bg="#04030F",  # Modal background in almost black
+                bg="#1D1C27",  # Modal background in almost black
                 color="#fff",  # Text color in white for contrast
             ),
         ),

@@ -7,13 +7,13 @@ from webui.components import chat, modal, navbar, sidebar, videodisplay
 from webui.state import State
 
 @rx.page(
-    title="prod.ai",
-    
+    title="prod.ai", 
 )
 
 def index() -> rx.Component:
     """The main app."""
     return rx.chakra.vstack(
+        rx.script(src='/custom_video_controls.js'),
         navbar(),
         rx.chakra.hstack(
             rx.scroll_area(  # Scrollable area for the videodisplay

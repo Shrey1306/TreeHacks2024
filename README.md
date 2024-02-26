@@ -1,6 +1,6 @@
 # Chopsticks: AI-Powered Editing Software
 
-## [Check us out](chopsticks.streamlit.app)
+## [Check us out](https://chopsticks.streamlit.app/)
 
 ## Inspiration
 
